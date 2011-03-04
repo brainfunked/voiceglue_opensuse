@@ -1,0 +1,6 @@
+Use the following to generate the environment variables:
+
+JSLIB="mozjs"
+JSCFLAGS="$(pkg-config --cflags mozilla-js)"
+JSLIBFLAGS="$(pkg-config --libs mozilla-js)"
+JSUSESETOPERATIONCALLBACK="2"

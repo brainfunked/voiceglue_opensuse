@@ -1,0 +1,4 @@
+This tree has the information, scripts etc required to build voiceglue on openSUSE 11.3
+
+
+libXerces-c-28 and libXerces-c-devel from OBS://KDE:/KDE3/openSUSE_11.3 are required

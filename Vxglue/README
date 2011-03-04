@@ -1,0 +1,3 @@
+Refer to openvxi's README for the environment variables that need to be passed:
+
+$JSLIB $JSCFLAGS $JSLIBFLAGS perl Build.PL
