@@ -21,14 +21,16 @@ INSTALL = install
 
 install:
 	$(INSTALL) phoneglue /usr/bin
-	$(INSTALL) phoneglue.init /etc/init.d/phoneglue
-	-/usr/sbin/useradd -r -c "phoneglue" -s /sbin/nologin -d /var/log/phoneglue phoneglue 2> /dev/null
+	$(INSTALL) phoneglue.init.suse /etc/init.d/phoneglue
+	-/usr/sbin/groupadd -r "phoneglue" 2> /dev/null
+	-/usr/sbin/useradd -r -c "phoneglue" -g "phoneglue" -s /bin/false -d /var/log/phoneglue phoneglue 2> /dev/null
 	/sbin/chkconfig --add phoneglue
 
 uninstall:
 	/sbin/service phoneglue stop > /dev/null 2>&1
 	/sbin/chkconfig --del phoneglue
 	-/usr/sbin/userdel -f phoneglue 2> /dev/null
+	-/usr/sbin/groupdel -f phoneglue 2> /dev/null
 	$(RM) /usr/bin/phoneglue
 	$(RM) /etc/init.d/phoneglue
 
