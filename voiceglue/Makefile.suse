@@ -23,7 +23,7 @@ install:
 	./voiceglue_init_config
 	$(INSTALL) voiceglue /usr/bin
 	$(INSTALL) voiceglue_tts_gen /usr/bin
-	$(INSTALL) voiceglue.init /etc/init.d/voiceglue
+	$(INSTALL) voiceglue.init.suse /etc/init.d/voiceglue
 	/sbin/chkconfig --add voiceglue
 
 uninstall:
