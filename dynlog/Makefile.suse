@@ -23,7 +23,8 @@ install:
 	$(INSTALL) dynlog /usr/bin
 	$(INSTALL) dynlog_level /usr/bin
 	$(INSTALL) dynlog.init.suse /etc/init.d/dynlog
-	-/usr/sbin/useradd -r -c "dynlog" -s /bin/false -d /var/log/dynlog dynlog 2> /dev/null
+	-/usr/sbin/groupadd -r "dynlog" 2> /dev/null
+	-/usr/sbin/useradd -r -c "dynlog" -g "dynlog" -s /bin/false -d /var/log/dynlog dynlog 2> /dev/null
 	/sbin/chkconfig --add dynlog
 
 uninstall:
