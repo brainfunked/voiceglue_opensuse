@@ -1,0 +1,8 @@
+## Configuration for the voiceglue init script
+
+# Set the following if DYNLOG does not run on localhost
+# dynlog uses port 6410
+DYNLOG_HOST="localhost"
+
+# Path to the voiceglue config file
+VOICEGLUE_CONF="/etc/voiceglue.conf"

@@ -1,41 +1,62 @@
 #!/bin/sh
 #
-# dynlog    Starts, Stops and Reloads Dynlog.
+# voiceglue    Starts, Stops and Reloads Voiceglue.
 #
 
 ### BEGIN INIT INFO
-# Provides:          dynlog
-# Required-Start:    $local_fs $remote_fs $network
-# Required-Stop:     $local_fs $remote_fs $network
+# Provides:          voiceglue
+# Required-Start:    $local_fs $remote_fs $network dynlog asterisk phoneglue
+# Required-Stop:     $local_fs $remote_fs $network dynlog asterisk phoneglue
 # Default-Start:     3 5
-# Default-Stop:      0 1 2 6
-# Short-Description: Start the dynlog daemon for voiceglue
+# Default-Stop:      0 1 6
+# Short-Description: Starts the voiceglue daemon
+# Description:       Voiceglue is openvxi with SATC client telephony
 ### END INIT INFO
 
-DAEMON="dynlog"
-DYNLOG_BIN="/usr/bin"
-DYNLOG_USER="dynlog"
-DYNLOG_GROUP="dynlog"
-# Full path to dynlog binary
-DYNLOG="$DYNLOG_BIN/$DAEMON"
+DAEMON="voiceglue"
+VOICEGLUE_BIN="/usr/bin"
+VOICEGLUE_USER="asterisk"
+VOICEGLUE_GROUP="asterisk"
+VOICEGLUE_CONF="${VOICEGLUE_CONF:-/etc/voiceglue.conf}"
+# Full path to voiceglue binary
+VOICEGLUE="$VOICEGLUE_BIN/$DAEMON"
 PIDDIR="/var/run"
 PIDFILE="$PIDDIR/$DAEMON.pid"
 
-test -x "$DYNLOG" || { echo "$DYNLOG not installed";
+test -x "$VOICEGLUE" || { echo "$VOICEGLUE not installed";
   if [[ $1 == "stop" ]]; then exit 0;
   else exit 5; fi; }
 
-if [[ $DYNLOG_USER ]] ; then
-  DYNLOGARGS="-U $DYNLOG_USER"
+test -f "$VOICEGLUE_CONF" || { echo "ERROR: $VOICEGLUE_CONF not found";
+  if [[ $1 == "stop" ]]; then exit 0;
+  else exit 5; fi; }
+
+if [ $VOICEGLUE_USER ] ; then
+	VOICEGLUEARGS="--user $VOICEGLUE_USER"
 fi
-if [[ $DYNLOG_GROUP ]] ; then
-  DYNLOGARGS="$DYNLOGARGS -G $DYNLOG_GROUP"
+if [ $VOICEGLUE_GROUP ] ; then
+	VOICEGLUEARGS="$VOICEGLUEARGS --group $VOICEGLUE_GROUP"
 fi
+if [ $DYNLOG_HOST ] ; then
+	VOICEGLUEARGS="$VOICEGLUEARGS --loghost $DYNLOG_HOST"
+fi
+if [ $VOICEGLUE_CONF ] ; then
+	VOICEGLUEARGS="$VOICEGLUEARGS --conffile $VOICEGLUE_CONF"
+fi
+
+# Path to libmozjs
+LD_LIBRARY_PATH=/usr/lib/xulrunner-`xulrunner --gre-version 2>/dev/null`
+export LD_LIBRARY_PATH
+
+ulimit -c unlimited
 
 . /etc/rc.status
 
 # Reset status of this service
 rc_reset
+
+# Source the configuration file
+. /etc/sysconfig/$DAEMON
 
 # See how we were called.
 case "$1" in
@@ -43,7 +64,7 @@ case "$1" in
   echo -n "Starting $DAEMON "
   ## Start daemon with startproc(8). If this fails
   ## the return value is set appropriately by startproc.
-  /sbin/startproc $DYNLOG $DYNLOGARGS
+  /sbin/startproc $VOICEGLUE $VOICEGLUEARGS
 
   # Remember status and be verbose
   rc_status -v
@@ -53,7 +74,7 @@ case "$1" in
   ## Stop daemon with killproc(8) and if this fails
   ## killproc sets the return value according to LSB.
 
-  /sbin/killproc -TERM $DYNLOG
+  /sbin/killproc -TERM $VOICEGLUE
 
   # Remember status and be verbose
   rc_status -v
@@ -103,7 +124,7 @@ case "$1" in
   ## checkproc will return with exit status 0.
 
   # NOTE: checkproc returns LSB compliant status values.
-  /sbin/checkproc $DYNLOG
+  /sbin/checkproc $VOICEGLUE
   # NOTE: rc_status knows that we called this init script with
   # "status" option and adapts its messages accordingly.
   rc_status -v
