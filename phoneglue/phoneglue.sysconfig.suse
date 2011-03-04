@@ -1,0 +1,5 @@
+## Configuration file for phoneglue
+
+# Set the following if DYNLOG does not run on localhost
+# dynlog uses port 6410
+DYNLOG_HOST="localhost"
