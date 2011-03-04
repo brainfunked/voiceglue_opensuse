@@ -8,7 +8,7 @@
 # Required-Start:    $local_fs $remote_fs $network dynlog asterisk
 # Required-Stop:     $local_fs $remote_fs $network dynlog asterisk
 # Default-Start:     3 5
-# Default-Stop:      0 1 6
+# Default-Stop:      0 1 2 4 6
 # Short-Description: Starts the phoneglue daemon
 # Description:       Phoneglue is a SATC server for Asterisk
 ### END INIT INFO

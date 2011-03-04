@@ -8,7 +8,7 @@
 # Required-Start:    $local_fs $remote_fs $network dynlog asterisk phoneglue
 # Required-Stop:     $local_fs $remote_fs $network dynlog asterisk phoneglue
 # Default-Start:     3 5
-# Default-Stop:      0 1 6
+# Default-Stop:      0 1 2 4 6
 # Short-Description: Starts the voiceglue daemon
 # Description:       Voiceglue is openvxi with SATC client telephony
 ### END INIT INFO
