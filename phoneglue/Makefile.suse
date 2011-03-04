@@ -22,6 +22,7 @@ INSTALL = install
 install:
 	$(INSTALL) phoneglue /usr/bin
 	$(INSTALL) phoneglue.init.suse /etc/init.d/phoneglue
+	$(INSTALL) phoneglue.sysconfig.suse /etc/sysconfig/phoneglue
 	-/usr/sbin/groupadd -r "phoneglue" 2> /dev/null
 	-/usr/sbin/useradd -r -c "phoneglue" -g "phoneglue" -s /bin/false -d /var/log/phoneglue phoneglue 2> /dev/null
 	/sbin/chkconfig --add phoneglue
